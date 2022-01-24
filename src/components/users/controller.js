@@ -1,5 +1,6 @@
 // @ts-check
 import * as UserDao from './dao'
+import { multiple } from './dto'
 import {
   validateUserCreate,
   validateUserUpdate,
@@ -16,8 +17,9 @@ async function index(req, res) {
   const page = Number(req.query.page)
 
   const users = await UserDao.findAllUsers(limit, page)
+  const data = multiple(users, 'super-admin')
 
-  return res.respond({ data: users })
+  return res.respond({ data })
 }
 
 /**

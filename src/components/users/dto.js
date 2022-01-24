@@ -8,15 +8,18 @@ const ENDPOINT = `${HOST}:${PORT}/api/v${VERSION}/users`
 /**
  * Heatoas Single - User
  * @param {import('./types').User} resource
+ * @param {string} profileUser
  * @returns {object}
  */
-function single(resource) {
+function single(resource, profileUser) {
   return {
     id: resource._id,
     nikname: resource.nikname,
     email: resource.email,
     avatar: `${HOST}:${PORT}${resource.avatar}`,
-    profile: 1,
+    profile: profileUser === 'super-admin' || profileUser === 'admin' ? resource.profile: undefined,
+    isDeleted: profileUser === 'super-admin' ? resource.isDeleted : undefined,
+    createdAt: profileUser === 'super-admin' ? resource.createdAt : undefined,
     links: [{ rel: 'self', href: `${ENDPOINT}/${resource._id}` }]
   }
 }
@@ -24,9 +27,10 @@ function single(resource) {
 /**
  * Heatoas Multiple - Users
  * @param {object} results
+ * @param {string} profileUser
  * @returns
  */
-function multiple(results) {
+function multiple(results, profileUser) {
   const {
     docs,
     totalDocs,
@@ -53,7 +57,7 @@ function multiple(results) {
       current: `${ENDPOINT}?limit=${limit}&page=${page}`,
       next: hasNextPage ? `${ENDPOINT}?limit=${limit}&page=${nextPage}` : null
     },
-    users: docs.map((resource) => single(resource))
+    users: docs.map((resource) => single(resource, profileUser))
   }
 }
 

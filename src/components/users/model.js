@@ -27,8 +27,11 @@ const UserSchema = new Schema(
     },
     profile: {
       type: String,
-      default: 'user',
-      enum: PROFILES
+      enum: {
+        values: PROFILES,
+        message: '{VALUE} no es un perfil de usuario'
+      },
+      default: 'user'
     },
     isDeleted: {
       type: Boolean,

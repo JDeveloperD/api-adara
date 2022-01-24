@@ -16,13 +16,7 @@ async function findAllUsers(limit, page) {
     sort: { createdAt: 'desc' }
   }
 
-  const results = await UserModel.paginate({ isDeleted: false }, options)
-
-  if (results.docs.length === 0) {
-    return []
-  }
-
-  return multiple(results)
+  return await UserModel.paginate({ isDeleted: false }, options)
 }
 
 /**

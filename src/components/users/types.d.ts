@@ -7,7 +7,8 @@ export type User = {
   password: string
   avatar?: string
   profile?: string
-  isDeleted?: boolean
+  isDeleted?: boolean,
+  createdAt?: Date
 }
 
 export { CustomResponse } from '../../types'

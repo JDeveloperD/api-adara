@@ -6,6 +6,7 @@ import { PROFILES } from './model'
 /**
  * Validar la creación del usuario
  * @param {import('./types').User} user
+ *
  * @returns {Promise<Array<string>>}
  */
 async function validateUserCreate(user) {
@@ -26,6 +27,7 @@ async function validateUserCreate(user) {
 /**
  * Validar la actualización del usuario
  * @param {import('./types').User} user
+ *
  * @return {Array<string>}
  */
 function validateUserUpdate(user) {
@@ -42,6 +44,7 @@ function validateUserUpdate(user) {
 /**
  * Validar un Email
  * @param {string} email
+ *
  * @return {Promise<string>}
  */
 async function validateEmail(email) {
@@ -66,6 +69,7 @@ async function validateEmail(email) {
 /**
  * Validar una contraseña
  * @param {string} password
+ *
  * @return {string}
  */
 function validatePassword(password) {
@@ -83,6 +87,7 @@ function validatePassword(password) {
 /**
  * Validar si es usuario es de tipo ObjectId Mongoose
  * @param {string} id
+ *
  * @return {boolean}
  */
 function validateId(id) {
@@ -96,7 +101,7 @@ function validateId(id) {
  * @return {string| null}
  */
 function validateProfile(profile) {
-  if (profile || !PROFILES.includes(profile)) {
+  if (profile && !PROFILES.includes(profile)) {
     return 'El perfil para el usuario es incorrecto'
   }
 
