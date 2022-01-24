@@ -1,0 +1,28 @@
+{
+  "ignore": [
+    "node_modules"
+  ],
+  "presets": [
+    "@babel/preset-env"
+  ],
+  "plugins": [
+    [
+      "module-resolver",
+      {
+        "root": ["./src"]
+      }
+    ],
+    "@babel/transform-runtime"
+  ],
+  "env": {
+    "production": {
+      "comments": false,
+      "minified": true,
+      "ignore": [
+        "node_modules",
+        "**/*.test.js",
+        "**/*.spec.js"
+      ]
+    }
+  }
+}
