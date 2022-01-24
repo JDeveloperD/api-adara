@@ -1,0 +1,11 @@
+.next
+.idea
+coverage
+dist
+.babelrc
+.eslintrc.js
+.prettierrc.json
+package-lock.json
+package.json
+public/index.html
+README.md

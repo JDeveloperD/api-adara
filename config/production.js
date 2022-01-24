@@ -1,7 +1,9 @@
 const fs = require('fs')
 
 if (!fs.existsSync('.env')) {
-  throw new Error('🔥🔥 => No existe el archivo .env cree una copia del archivo .env.example y coloque los valores de producción')
+  throw new Error(
+    '🔥🔥 => No existe el archivo .env cree una copia del archivo .env.example y coloque los valores de producción'
+  )
 }
 
 require('dotenv').config()

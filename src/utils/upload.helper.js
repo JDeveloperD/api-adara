@@ -14,8 +14,4 @@ const DIR_API = path.dirname(require.main.filename)
 const DIR_UPLOAD_TEMP = path.join(DIR_API, 'temp')
 const fsPromises = fs.promises
 
-export {
-  DIR_API,
-  DIR_UPLOAD_TEMP,
-  fsPromises
-}
+export { DIR_API, DIR_UPLOAD_TEMP, fsPromises }

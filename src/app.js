@@ -33,8 +33,6 @@ app
 
 router(app)
 
-app
-  .use(error404)
-  .use(generalErrorHandler)
+app.use(error404).use(generalErrorHandler)
 
 export default app

@@ -1,6 +1,6 @@
 // @ts-check
 import { UserModel, encryptPassword } from './model'
-import { single, multiple } from './dto'
+import { single } from './dto'
 
 /**
  * Obtener la lista de todos los usuarios

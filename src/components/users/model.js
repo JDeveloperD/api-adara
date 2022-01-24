@@ -1,5 +1,5 @@
 // @ts-check
-import { model, Schema, SchemaTypes } from 'mongoose'
+import { model, Schema } from 'mongoose'
 import paginate from 'mongoose-paginate-v2'
 import bcrypt from 'bcrypt'
 
@@ -46,7 +46,7 @@ const UserSchema = new Schema(
  * @param {string} password
  * @returns {Promise<string>}
  */
-const encryptPassword = async (password) => {
+const encryptPassword = async password => {
   const salt = await bcrypt.genSalt(10)
   return await bcrypt.hash(password, salt)
 }

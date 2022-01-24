@@ -90,7 +90,11 @@ const responseHelper = (req, res, next = null) => {
   }
 
   res.failNotFound = ({ description = 'Not Found', errors = [] }) => {
-    return res.fail({ description, status: responseCode.RESOURCE_NOT_FOUND, errors })
+    return res.fail({
+      description,
+      status: responseCode.RESOURCE_NOT_FOUND,
+      errors
+    })
   }
 
   res.failValidationError = ({ description = 'Bad Request', errors = [] }) => {
@@ -101,10 +105,9 @@ const responseHelper = (req, res, next = null) => {
     return res.fail({ description, status: responseCode.SERVER_ERROR, errors })
   }
 
-  if (next !== null) { next() }
+  if (next !== null) {
+    next()
+  }
 }
 
-export {
-  responseHelper,
-  responseCode
-}
+export { responseHelper, responseCode }

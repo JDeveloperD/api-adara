@@ -10,7 +10,7 @@ const ENVIRONMENT = config.util.getEnv('NODE_ENV')
  * @param {import('express').Response} _res
  * @param {import('express').NextFunction} next
  */
-function error404 (_req, _res, next) {
+function error404(_req, _res, next) {
   next(createError(404, 'La ruta no existe'))
 }
 
@@ -21,7 +21,7 @@ function error404 (_req, _res, next) {
  * @param {import('express').Response} res
  * @param {import('express').NextFunction} _next
  */
-function generalErrorHandler (err, req, res, _next) {
+function generalErrorHandler(err, req, res, _next) {
   res.locals.message = err.message
   res.locals.error = ENVIRONMENT === 'development' ? err : {}
 
@@ -29,7 +29,4 @@ function generalErrorHandler (err, req, res, _next) {
   res.json({ code: err.status, message: err.message })
 }
 
-export {
-  error404,
-  generalErrorHandler
-}
+export { error404, generalErrorHandler }

@@ -17,7 +17,10 @@ function single(resource, profileUser) {
     nikname: resource.nikname,
     email: resource.email,
     avatar: `${HOST}:${PORT}${resource.avatar}`,
-    profile: profileUser === 'super-admin' || profileUser === 'admin' ? resource.profile: undefined,
+    profile:
+      profileUser === 'super-admin' || profileUser === 'admin'
+        ? resource.profile
+        : undefined,
     isDeleted: profileUser === 'super-admin' ? resource.isDeleted : undefined,
     createdAt: profileUser === 'super-admin' ? resource.createdAt : undefined,
     links: [{ rel: 'self', href: `${ENDPOINT}/${resource._id}` }]
@@ -57,7 +60,7 @@ function multiple(results, profileUser) {
       current: `${ENDPOINT}?limit=${limit}&page=${page}`,
       next: hasNextPage ? `${ENDPOINT}?limit=${limit}&page=${nextPage}` : null
     },
-    users: docs.map((resource) => single(resource, profileUser))
+    users: docs.map(resource => single(resource, profileUser))
   }
 }
 
