@@ -52,15 +52,17 @@ async function create(req, res) {
   /** @type {import('./types').User} */
   const data = req.body
 
-  const errors = await validateUserCreate(data)
+  return res.respondCreated({ data })
 
-  if (errors.length > 0) {
-    return res.failValidationError({ errors })
-  }
+  // const errors = await validateUserCreate(data)
 
-  const userCreated = await UserDao.createUser(data)
+  // if (errors.length > 0) {
+  //   return res.failValidationError({ errors })
+  // }
 
-  return res.respondCreated({ data: userCreated })
+  // const userCreated = await UserDao.createUser(data)
+
+  // return res.respondCreated({ data: userCreated })
 }
 
 /**

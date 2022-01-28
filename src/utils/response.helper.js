@@ -81,12 +81,12 @@ const responseHelper = (req, res, next = null) => {
     return res.respond({ data: null, status: responseCode.NO_CONTENT })
   }
 
-  res.failUnauthorized = ({ description = 'Unauthorized' }) => {
-    return res.fail({ description, status: responseCode.UNAUTHORIZED })
+  res.failUnauthorized = () => {
+    return res.fail({ description:'Unauthorized', status: responseCode.UNAUTHORIZED })
   }
 
-  res.failForbidden = ({ description = 'Forbidden' }) => {
-    return res.fail({ description, status: responseCode.FORBIDDEN })
+  res.failForbidden = () => {
+    return res.fail({ description: 'Forbidden', status: responseCode.FORBIDDEN })
   }
 
   res.failNotFound = ({ description = 'Not Found', errors = [] }) => {
@@ -97,8 +97,8 @@ const responseHelper = (req, res, next = null) => {
     })
   }
 
-  res.failValidationError = ({ description = 'Bad Request', errors = [] }) => {
-    return res.fail({ description, status: responseCode.INVALID_DATA, errors })
+  res.failValidationError = ( errors = null ) => {
+    return res.fail({ description:'Bad Request', status: responseCode.INVALID_DATA, errors })
   }
 
   res.failServerError = ({ description = 'Internal Server Error', errors }) => {

@@ -36,9 +36,9 @@ export interface CustomResponse extends Response {
   respondDeleted: (deletedData: SuccessType) => {}
   respondUpdated: (updatedData: SuccessType) => {}
   respondNoContent: () => {}
-  failUnauthorized: (error: ErrorType) => {}
+  failUnauthorized: () => {}
   failForbidden: () => {}
   failNotFound: (error: ErrorType) => {}
-  failValidationError: (errors: ErrorType) => {}
+  failValidationError: (errors: Array<string> | string) => {}
   failServerError: (serverError: ErrorType) => {}
 }

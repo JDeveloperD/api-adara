@@ -19,17 +19,17 @@ import { error404, generalErrorHandler } from './middleware'
 const app = express()
 const logger = config.get('LOGGER')
 
-app.set('view engine', 'html')
-
 app
   .use(helmet())
   .use(morgan(logger)) // http logger
   .use(cors({}))
   .use('/api', express.static('public'))
   .use('/uploads', express.static('public/uploads'))
-  .use(express.json({ limit: '1mb' })) // for parsing application/json
+  .use(express.json()) // for parsing application/json
   .use(express.urlencoded({ extended: false })) // for parsing application/x-www-form-urlencoded
   .use(responseHelper)
+
+app.set('view engine', 'html')
 
 router(app)
 
