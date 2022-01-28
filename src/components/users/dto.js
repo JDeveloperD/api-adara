@@ -11,10 +11,9 @@ const ENDPOINT = `${HOST}:${PORT}/api/v${VERSION}/users`
  * @param {string} profileUser
  * @returns {object}
  */
-function single(resource, profileUser) {
+function single (resource, profileUser) {
   return {
     id: resource._id,
-    nikname: resource.nikname,
     email: resource.email,
     avatar: `${HOST}:${PORT}${resource.avatar}`,
     profile:
@@ -33,7 +32,7 @@ function single(resource, profileUser) {
  * @param {string} profileUser
  * @returns
  */
-function multiple(results, profileUser) {
+function multiple (results, profileUser) {
   const {
     docs,
     totalDocs,

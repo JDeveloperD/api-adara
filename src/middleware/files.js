@@ -14,7 +14,7 @@ function isSingleFileValid (req, res, next) {
     // errores de multer
     if (err instanceof multer.MulterError) {
       if (err.code === 'LIMIT_FILE_SIZE') {
-        return res.failValidationError(`La imagen ingresada en el campo ${err.field} excede el tamaño permitido de 1mb`)
+        return res.failValidationError(`La imagen ingresada en el campo ${err.field} excede el tamaño permitido de 2mb`)
       }
     }
     // errores personalizados

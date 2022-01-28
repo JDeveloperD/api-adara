@@ -13,7 +13,7 @@ import routesUser from 'components/users/routes'
 
 const { VERSION, INFO } = config.get('API')
 
-function router(app) {
+function router (app) {
   const router = Router()
 
   router.get('/', (_req, res) => {

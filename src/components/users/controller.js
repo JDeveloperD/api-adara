@@ -1,18 +1,15 @@
 // @ts-check
 import * as UserDao from './dao'
-import { multiple } from './dto'
-import {
-  validateUserCreate,
-  validateUserUpdate,
-  validateId
-} from './validations'
+import { multiple, single } from './dto'
+import { createFileAvatar } from './services'
+import { validateUserCreate, validateUserUpdate, validateId } from './validations'
 
 /**
  * Obtener todos los usuarios
  * @param {import('express').Request} req
  * @param {import('./types').CustomResponse} res
  */
-async function index(req, res) {
+async function index (req, res) {
   const limit = Number(req.query.limit)
   const page = Number(req.query.page)
 
@@ -27,20 +24,22 @@ async function index(req, res) {
  * @param {import('express').Request} req
  * @param {import('./types').CustomResponse} res
  */
-async function getById(req, res) {
+async function getById (req, res) {
   const { id } = req.params
 
   if (!validateId(id)) {
-    return res.failNotFound({ errors: 'El id no es válido' })
+    return res.failNotFound('El id no es válido')
   }
 
   const user = await UserDao.findUserById(id)
 
   if (!user) {
-    return res.failNotFound({ errors: 'No se encontró al usuario' })
+    return res.failNotFound('No se encontró al usuario')
   }
 
-  return res.respond({ data: user })
+  const data = single(user, 'admin')
+
+  return res.respond({ data })
 }
 
 /**
@@ -48,21 +47,32 @@ async function getById(req, res) {
  * @param {import('express').Request} req
  * @param {import('./types').CustomResponse} res
  */
-async function create(req, res) {
+async function create (req, res) {
   /** @type {import('./types').User} */
-  const data = req.body
+  const userData = req.body
+  const avatar = req.file
 
-  return res.respondCreated({ data })
+  const errors = await validateUserCreate(userData)
 
-  // const errors = await validateUserCreate(data)
+  if (errors.length > 0) {
+    return res.failValidationError(errors)
+  }
 
-  // if (errors.length > 0) {
-  //   return res.failValidationError({ errors })
-  // }
+  if (avatar) {
+    try {
+      userData.avatar = await createFileAvatar(avatar)
+    } catch (error) {
+      console.log('error handler on controller', error)
+    }
+  }
 
-  // const userCreated = await UserDao.createUser(data)
+  return res.respondCreated({ data: userData })
 
-  // return res.respondCreated({ data: userCreated })
+/*   const userCreated = await UserDao.createUser(userData)
+
+  const data = single(userCreated, 'admin')
+
+  return res.respondCreated({ data }) */
 }
 
 /**
@@ -70,29 +80,31 @@ async function create(req, res) {
  * @param {import('express').Request} req
  * @param {import('./types').CustomResponse} res
  */
-async function update(req, res) {
+async function update (req, res) {
   const { id } = req.params
 
   /** @type {import('./types').User} */
-  const data = req.body
+  const updatedData = req.body
 
   if (!validateId(id)) {
-    return res.failNotFound({ errors: 'El id no es válido' })
+    return res.failNotFound('El id no es válido')
   }
 
-  const errors = validateUserUpdate(data)
+  const errors = validateUserUpdate(updatedData)
 
   if (errors.length > 0) {
-    return res.failValidationError({ errors })
+    return res.failValidationError(errors)
   }
 
-  const userUpdated = await UserDao.updateUser(id, data)
+  const userUpdated = await UserDao.updateUser(id, updatedData)
 
   if (!userUpdated) {
-    return res.failNotFound({ errors: 'No se encontró al usuario' })
+    return res.failNotFound('No se encontró al usuario')
   }
 
-  return res.respondUpdated({ data: userUpdated })
+  const data = single(userUpdated, 'admin')
+
+  return res.respondUpdated({ data })
 }
 
 /**
@@ -100,17 +112,17 @@ async function update(req, res) {
  * @param {import('express').Request} req
  * @param {import('./types').CustomResponse} res
  */
-async function remove(req, res) {
+async function remove (req, res) {
   const { id } = req.params
 
   if (!validateId(id)) {
-    return res.failNotFound({ errors: 'El id no es válido' })
+    return res.failNotFound('El id no es válido')
   }
 
   const userDeleted = await UserDao.removeUser(id)
 
   if (!userDeleted) {
-    return res.failNotFound({ errors: 'Usuario no encontrado' })
+    return res.failNotFound('Usuario no encontrado')
   }
 
   return res.respondDeleted({ message: 'Se eliminó el usuario' })
@@ -121,7 +133,7 @@ async function remove(req, res) {
  * @param {import('express').Request} req
  * @param {import('./types').CustomResponse} res
  */
-async function search(req, res) {
+async function search (req, res) {
   return res.respond({ data: [] })
 }
 
@@ -130,7 +142,7 @@ async function search(req, res) {
  * @param {import('express').Request} req
  * @param {import('./types').CustomResponse} res
  */
-async function sortBy(req, res) {
+async function sortBy (req, res) {
   return res.respond({ data: [] })
 }
 

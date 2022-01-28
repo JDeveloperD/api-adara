@@ -38,7 +38,7 @@ export interface CustomResponse extends Response {
   respondNoContent: () => {}
   failUnauthorized: () => {}
   failForbidden: () => {}
-  failNotFound: (error: ErrorType) => {}
+  failNotFound: (message: string) => {}
   failValidationError: (errors: Array<string> | string) => {}
   failServerError: (serverError: ErrorType) => {}
 }

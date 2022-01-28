@@ -7,11 +7,6 @@ const PROFILES = ['super-admin', 'admin', 'moderator', 'user']
 
 const UserSchema = new Schema(
   {
-    nikname: {
-      type: String,
-      default: '',
-      unique: true
-    },
     email: {
       type: String,
       unique: true,

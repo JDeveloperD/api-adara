@@ -82,23 +82,23 @@ const responseHelper = (req, res, next = null) => {
   }
 
   res.failUnauthorized = () => {
-    return res.fail({ description:'Unauthorized', status: responseCode.UNAUTHORIZED })
+    return res.fail({ description: 'Unauthorized', status: responseCode.UNAUTHORIZED })
   }
 
   res.failForbidden = () => {
     return res.fail({ description: 'Forbidden', status: responseCode.FORBIDDEN })
   }
 
-  res.failNotFound = ({ description = 'Not Found', errors = [] }) => {
+  res.failNotFound = (message) => {
     return res.fail({
-      description,
+      description: 'Not Found',
       status: responseCode.RESOURCE_NOT_FOUND,
-      errors
+      errors: message
     })
   }
 
-  res.failValidationError = ( errors = null ) => {
-    return res.fail({ description:'Bad Request', status: responseCode.INVALID_DATA, errors })
+  res.failValidationError = (errors = null) => {
+    return res.fail({ description: 'Bad Request', status: responseCode.INVALID_DATA, errors })
   }
 
   res.failServerError = ({ description = 'Internal Server Error', errors }) => {

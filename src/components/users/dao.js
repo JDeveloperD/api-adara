@@ -1,15 +1,16 @@
 // @ts-check
 import { UserModel, encryptPassword } from './model'
-import { single } from './dto'
 
 /**
  * Obtener la lista de todos los usuarios
  * @param {number} limit
  * @param {number} page
  *
+ * @constant {string} options
+ *
  * @returns {Promise<object> | Promise<any>}
  */
-async function findAllUsers(limit, page) {
+async function findAllUsers (limit, page) {
   const options = {
     page: page || 1,
     limit: limit || 10,
@@ -25,14 +26,14 @@ async function findAllUsers(limit, page) {
  *
  * @returns {Promise<import('./types').User>}
  */
-async function findUserById(id) {
+async function findUserById (id) {
   const user = await UserModel.findOne({ _id: id, isDeleted: false })
 
   if (!user) {
     return null
   }
 
-  return single(user)
+  return user
 }
 
 /**
@@ -41,22 +42,19 @@ async function findUserById(id) {
  *
  * @return {Promise<import('./types').User>}
  */
-async function createUser(user) {
-  let { nikname, email, password, avatar, profile } = user
+async function createUser (user) {
+  let { email, password, avatar, profile } = user
 
   password = await encryptPassword(password)
 
   const newUser = new UserModel({
-    nikname,
     email,
     password,
     avatar,
     profile
   })
 
-  const userSaved = await newUser.save()
-
-  return single(userSaved)
+  return await newUser.save()
 }
 
 /**
@@ -66,13 +64,12 @@ async function createUser(user) {
  *
  * @returns {Promise<import('./types').User>}
  */
-async function updateUser(id, user) {
-  const { nikname, password, avatar } = user
+async function updateUser (id, user) {
+  const { password, avatar } = user
 
   const userUpdated = await UserModel.findOneAndUpdate(
     { _id: id, isDeleted: false },
     {
-      nikname,
       password: await encryptPassword(password),
       avatar
     },
@@ -82,13 +79,11 @@ async function updateUser(id, user) {
     }
   )
 
-  console.log(userUpdated)
-
   if (!userUpdated) {
     return null
   }
 
-  return single(userUpdated)
+  return userUpdated
 }
 
 /**
@@ -97,7 +92,7 @@ async function updateUser(id, user) {
  *
  * @returns {Promise<boolean>}
  */
-async function removeUser(id) {
+async function removeUser (id) {
   const result = await UserModel.findOneAndUpdate(
     { _id: id, isDeleted: false },
     { isDeleted: true },
@@ -115,7 +110,7 @@ async function removeUser(id) {
  *
  * @return {Promise<boolean>}
  */
-async function emailExists(email) {
+async function emailExists (email) {
   return await UserModel.exists({ email })
 }
 
